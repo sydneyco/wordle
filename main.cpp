@@ -7,9 +7,10 @@
 #include "Gameplay.cpp"
 #include <fstream>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
-int main(int argc, const char * argv[]) {
+int main(int argc, char * argv[]) {
     Gameplay game;
     ifstream fileInput;
     bool letsPlay = false;
@@ -59,24 +60,23 @@ int main(int argc, const char * argv[]) {
         string wordOfDay = game.getWord();
         cout << "Let's play wordle!\n";
         for (int i = 0; i < 5; i++) {
-            while(!game.isInList(entry)) {
-                cout << "Enter a 5 letter word:\n";
-                cin >> entry;
-                if (game.isInList(entry)) {
-                    if (entry != wordOfDay) {
-                        game.printResult(entry, wordOfDay);
-                    }
-                    else {
-                        cout << "Correct! The word was " << wordOfDay;
-                        return 0;
-                    }
+            cout << "Enter a 5 letter word:\n";
+            cin >> entry;
+            if (game.isInList(entry)) {
+                if (entry != wordOfDay) {
+                    game.printResult(entry, wordOfDay);
                 }
                 else {
-                    cout << "That word is not in the list\n";
+                    cout << "Correct! The word was " << wordOfDay;
+                    return 0;
                 }
             }
+            else {
+                cout << "That word is not in the list\n";
+                i--;
+            }
         }
-        cout << "The word was " << wordOfDay;
+        cout << "The word was " << wordOfDay << "\n";
     }
     return 0;
 }

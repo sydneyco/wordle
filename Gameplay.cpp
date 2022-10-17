@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <ctime>
 
 using namespace std;
 
@@ -72,6 +73,7 @@ public:
     }
     
     string getWord() {
+        srand(time(NULL));
         int num = (rand() % allWords.size()) + 1;
         return allWords[num];
     }
