@@ -57,8 +57,6 @@ int main(int argc, const char * argv[]) {
     }
     if (letsPlay) {
         string wordOfDay = game.getWord();
-        int rightPlace;
-        int inWord;
         cout << "Let's play wordle!\n";
         for (int i = 0; i < 5; i++) {
             while(!game.isInList(entry)) {
