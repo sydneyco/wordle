@@ -2,8 +2,6 @@
 //  main.cpp
 //  Wordle
 //
-//  Created by Sydney Cole on 10/16/22.
-//
 
 #include <iostream>
 #include "Gameplay.cpp"
@@ -14,6 +12,8 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     Gameplay game;
     ifstream fileInput;
+    bool letsPlay = false;
+    string entry;
     fileInput.open("wordsList.txt");
     string contents;
     if (fileInput.is_open()) {
@@ -29,11 +29,56 @@ int main(int argc, const char * argv[]) {
         if (tolower(option) == 's') {
             game.setStatsMode();
         }
+        else if (tolower(option) != 'p') {
+            cout << "invalid input\n";
+        }
+        else {
+            letsPlay = true;
+        }
     }
     if (game.getStatsMode()) {
         cout << "Wordle Stats:\n";
         cout << "There are " << game.getNumWords() << " possible words\n";
         cout << "The most common letter in this word list is " << game.mostCommonLetter() << "\n";
+        cout << "\nWould you like to play the game? y/n\n";
+        while (tolower(option) != 'y' && tolower(option) != 'n') {
+            cin >> option;
+            if (tolower(option) == 'y') {
+                letsPlay = true;
+            }
+            else if (tolower(option) == 'n') {
+                cout << "Have a good day!";
+            }
+            else {
+                cout << "invalid input\n";
+            }
+        }
+        
+    }
+    if (letsPlay) {
+        string wordOfDay = game.getWord();
+        int rightPlace;
+        int inWord;
+        cout << "Let's play wordle!\n";
+        for (int i = 0; i < 5; i++) {
+            while(!game.isInList(entry)) {
+                cout << "Enter a 5 letter word:\n";
+                cin >> entry;
+                if (game.isInList(entry)) {
+                    if (entry != wordOfDay) {
+                        game.printResult(entry, wordOfDay);
+                    }
+                    else {
+                        cout << "Correct! The word was " << wordOfDay;
+                        return 0;
+                    }
+                }
+                else {
+                    cout << "That word is not in the list\n";
+                }
+            }
+        }
+        cout << "The word was " << wordOfDay;
     }
     return 0;
 }

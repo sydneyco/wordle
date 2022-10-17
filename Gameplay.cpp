@@ -2,8 +2,6 @@
 //  Gameplay.cpp
 //  Wordle
 //
-//  Created by Sydney Cole on 10/16/22.
-//
 
 #include <stdio.h>
 #include <iostream>
@@ -36,9 +34,19 @@ public:
         char mostCommonChar =  'a';
         int mostCommonCount = 0;
         int currentCount;
+        int index = 0;
         for (char let = 'a'; let != '{'; let++) {
             currentCount = 0;
-            
+            for (size_t i = 0; i < allWords[index].length(); i++) {
+                if (let == allWords[index][i]) {
+                    currentCount++;
+                }
+            }
+            if (currentCount > mostCommonCount) {
+                mostCommonCount = currentCount;
+                mostCommonChar = let;
+            }
+            index++;
         }
         return mostCommonChar;
     }
@@ -47,7 +55,41 @@ public:
         allWords.push_back(contents);
     }
     
-    int getNumWords() {
+    size_t getNumWords() {
         return allWords.size();
+    }
+    
+    bool isInList(string entry) {
+        bool inList = false;
+        int i = 0;
+        while (!inList && i < allWords.size()) {
+            if (entry == allWords[i]) {
+                inList = true;
+            }
+            i++;
+        }
+        return inList;
+    }
+    
+    string getWord() {
+        int num = (rand() % allWords.size()) + 1;
+        return allWords[num];
+    }
+    
+    void printResult(string entry, string wordofDay) {
+        string assembled = "_____";
+        for (int i = 0; i < 5; i++) {
+            if (entry[i] == wordofDay[i]) {
+                assembled[i] = entry[i];
+            }
+        }
+        cout << assembled << "\n";
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (entry[i] == wordofDay[j] && assembled[i] == '_') {
+                    cout << "there is a(n) " << entry[i] << " but it was not in the right spot\n";
+                }
+            }
+        }
     }
 };
