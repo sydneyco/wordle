@@ -38,8 +38,8 @@ public:
         int index = 0;
         for (char let = 'a'; let != '{'; let++) {
             currentCount = 0;
+            index = 0;
             for (size_t i = 0; i < allWords.size(); i++) {
-                index = 0;
                 for (size_t i = 0; i < allWords[index].length(); i++) {
                     if (let == allWords[index][i]) {
                         currentCount++;
