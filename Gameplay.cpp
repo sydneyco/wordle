@@ -38,16 +38,19 @@ public:
         int index = 0;
         for (char let = 'a'; let != '{'; let++) {
             currentCount = 0;
-            for (size_t i = 0; i < allWords[index].length(); i++) {
-                if (let == allWords[index][i]) {
-                    currentCount++;
+            for (size_t i = 0; i < allWords.size(); i++) {
+                index = 0;
+                for (size_t i = 0; i < allWords[index].length(); i++) {
+                    if (let == allWords[index][i]) {
+                        currentCount++;
+                    }
                 }
+                index++;
             }
             if (currentCount > mostCommonCount) {
                 mostCommonCount = currentCount;
                 mostCommonChar = let;
             }
-            index++;
         }
         return mostCommonChar;
     }
@@ -57,7 +60,7 @@ public:
     }
     
     size_t getNumWords() {
-        return allWords.size();
+        return allWords.size() - 1;
     }
     
     bool isInList(string entry) {
