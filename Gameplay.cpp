@@ -9,6 +9,7 @@
 #include <vector>
 #include <fstream>
 #include <ctime>
+#include <unordered_map>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ private:
     //if this is true, show stats. if false, play game
     bool isStatsMode;
     vector<string> allWords;
+    unordered_map<string, int> wordList;
 public:
     Gameplay() {
         isStatsMode = false;
@@ -55,8 +57,15 @@ public:
         return mostCommonChar;
     }
     
-    void fillVector(string contents) {
-        allWords.push_back(contents);
+    void makeWordList(ifstream &fileInput) {
+        string contents;
+        int size = 1;
+        while (fileInput.good()) {
+            fileInput >> contents;
+            wordList[contents] = size;
+            allWords.push_back(contents);
+            size++;
+        }
     }
     
     size_t getNumWords() {
@@ -64,15 +73,10 @@ public:
     }
     
     bool isInList(string entry) {
-        bool inList = false;
-        int i = 0;
-        while (!inList && i < allWords.size()) {
-            if (entry == allWords[i]) {
-                inList = true;
-            }
-            i++;
+        if (wordList.find(entry) != wordList.end()) {
+            return true;
         }
-        return inList;
+        return false;
     }
     
     string getWord() {
