@@ -18,10 +18,7 @@ int main(int argc, char * argv[]) {
     fileInput.open("wordsList.txt");
     string contents;
     if (fileInput.is_open()) {
-        while (fileInput.good()) {
-            fileInput >> contents;
-            game.fillVector(contents);
-        }
+        game.makeWordList(fileInput);
     }
     cout << "Welcome to text based wordle! Enter 's' to get statistics on optimizing the game or 'p' to play\n";
     char option = 't';
@@ -59,7 +56,7 @@ int main(int argc, char * argv[]) {
     if (letsPlay) {
         string wordOfDay = game.getWord();
         cout << "Let's play wordle!\n";
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             cout << "Enter a 5 letter word:\n";
             cin >> entry;
             if (game.isInList(entry)) {
@@ -78,5 +75,6 @@ int main(int argc, char * argv[]) {
         }
         cout << "The word was " << wordOfDay << "\n";
     }
+    fileInput.close();
     return 0;
 }
